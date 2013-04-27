@@ -8,6 +8,15 @@ part of event_bus;
 class BroadcastStreamController<T> extends StreamController<T> {
   Stream<T> _broadcastCache;
   
+  BroadcastStreamController({void onListen(),
+                             void onPause(),
+                             void onResume(),
+                             void onCancel()}) 
+      : super(onListen: onListen, 
+              onPause: onPause, 
+              onResume: onResume, 
+              onCancel: onCancel);
+  
   @override
   Stream<T> get stream {
     if(_broadcastCache == null) {

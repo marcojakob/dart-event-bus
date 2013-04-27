@@ -11,7 +11,7 @@ class SimpleEventBus implements EventBus {
       new Map<EventType, BroadcastStreamController>();
   
   Stream/*<T>*/ on(EventType/*<T>*/ eventType) {
-    return map.putIfAbsent(eventType, () => new BroadcastStreamController/*<T>*/())
+    return map.putIfAbsent(eventType, () => _createStreamController(eventType))
         .stream;
   }
   
@@ -20,12 +20,22 @@ class SimpleEventBus implements EventBus {
       throw new ArgumentError('Provided data is not of same type as generic type of EventType.');
     }
     
-    var controller = map.putIfAbsent(eventType, () => new BroadcastStreamController/*<T>*/());
+    var controller = map.putIfAbsent(eventType, () => _createStreamController(eventType));
     
     // Only add data events when the stream is running. Otherwise, if no one was
     // listening, the events would be cached which could lead to a memory leak.
     if (controller.hasListener && !controller.isClosed && !controller.isPaused) {
       controller.add(data);
     }
+  }
+  
+  /**
+   * Creates a BroadcastStreamController that removes itself from the map when
+   * it is cancelled.
+   */
+  BroadcastStreamController/*<T>*/ _createStreamController(EventType/*<T>*/ eventType) {
+    return new BroadcastStreamController(
+        // Remove from map when tha last stream is canceled.
+        onCancel: () => map.remove(eventType));
   }
 }
