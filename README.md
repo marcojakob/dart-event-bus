@@ -46,7 +46,7 @@ final EventType<Order> newOrderEvent = new EventType<Order>();
 ```
 
 Note: The generic type of the event (`User` and `Order` in this case) is the 
-type of data that will be provided when this event is fired.
+type of data that will be provided when the event is fired.
 
 ### 3. Create Event Bus ###
 Create an instance of `EventBus` and make it available to other classes.
