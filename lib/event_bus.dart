@@ -16,6 +16,10 @@ part 'src/stream_controller.dart';
  * 
  * Not all events should be broadcasted through the [EventBus] but only those of
  * general interest.
+ * 
+ * **Note:** Make sure that listeners on the stream handle the same type <T> as the 
+ * generic type argument of [eventType]. Currently, this can't be expressed in 
+ * Dart - see [Issue 254](https://code.google.com/p/dart/issues/detail?id=254)
  */
 abstract class EventBus {
   
@@ -31,10 +35,6 @@ abstract class EventBus {
    * 
    * The returned [Stream] is a broadcast stream so multiple subscriptions are
    * allowed.
-   * 
-   * Note: Make sure that listeners on the stream handle the same type <T> as the 
-   * generic type argument of [eventType]. Currently, this can't be expressed in 
-   * Dart - see [Issue 254](https://code.google.com/p/dart/issues/detail?id=254)
    */
   Stream/*<T>*/ on(EventType/*<T>*/ eventType);
   

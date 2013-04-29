@@ -29,7 +29,7 @@ group('[SimpleEventBus]', () {
     eventBus.on(intEvent2);
     
     // then
-    expect(eventBus.map, hasLength(4));
+    expect(eventBus.streamControllers, hasLength(4));
   });
   
   test('on_MultipleTimesForOneEvent_HasOneStreamController', () {
@@ -38,7 +38,7 @@ group('[SimpleEventBus]', () {
     eventBus.on(stringEvent1);
     
     // then
-    expect(eventBus.map, hasLength(1));
+    expect(eventBus.streamControllers, hasLength(1));
   });
   
   test('on_AddMultipleListenersForOneEvent_BroadcastStreamAndNoError', () {
@@ -47,7 +47,7 @@ group('[SimpleEventBus]', () {
     eventBus.on(stringEvent1).listen((_) => null);
     
     // then
-    expect(eventBus.map[stringEvent1].stream.isBroadcast, isTrue);
+    expect(eventBus.streamControllers[stringEvent1].stream.isBroadcast, isTrue);
   });
   
   test('on_CancelSubscriptionForEvent_StreamControllerIsDeleted', () {
@@ -58,7 +58,19 @@ group('[SimpleEventBus]', () {
     subscription.cancel();
     
     // then
-    expect(eventBus.map[stringEvent1], isNull);
+    expect(eventBus.streamControllers[stringEvent1], isNull);
+  });
+  
+  test('on_CancelSubscriptionAndAddNewListener_HasValidStreamController', () {
+    // given
+    StreamSubscription subscription = eventBus.on(stringEvent1).listen((_) => null);
+    
+    // when
+    subscription.cancel();
+    eventBus.on(stringEvent1).listen((_) => null);
+    
+    // then
+    expect(eventBus.streamControllers[stringEvent1], isNotNull);
   });
   
   test('on_CancelOneSubscriptionForEventWithTwoListeners_StreamControllerIsNotDeleted', () {
@@ -70,7 +82,7 @@ group('[SimpleEventBus]', () {
     subscription.cancel();
     
     // then
-    expect(eventBus.map[stringEvent1], isNotNull);
+    expect(eventBus.streamControllers[stringEvent1], isNotNull);
   });
   
   test('on_CancelTwoSubscriptionForEventWithTwoListeners_StreamControllerIsDeleted', () {
@@ -83,7 +95,7 @@ group('[SimpleEventBus]', () {
     subscription2.cancel();
     
     // then
-    expect(eventBus.map[stringEvent1], isNull);
+    expect(eventBus.streamControllers[stringEvent1], isNull);
   });
   
   test('fire_OneListener_FiresEvent', () {

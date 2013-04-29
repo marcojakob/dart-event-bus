@@ -8,6 +8,10 @@ part of event_bus;
 class BroadcastStreamController<T> extends StreamController<T> {
   Stream<T> _broadcastCache;
   
+  /**
+   * Constructor that passes all call handlers to the super constructor of
+   * [StreamController].
+   */
   BroadcastStreamController({void onListen(),
                              void onPause(),
                              void onResume(),
@@ -17,6 +21,9 @@ class BroadcastStreamController<T> extends StreamController<T> {
               onResume: onResume, 
               onCancel: onCancel);
   
+  /**
+   * Returns the cached broadcast [Stream].
+   */
   @override
   Stream<T> get stream {
     if(_broadcastCache == null) {
