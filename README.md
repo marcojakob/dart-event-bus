@@ -16,16 +16,16 @@ The Event Bus pattern is especially helpful for decoupling [MVC](http://wikipedi
 
 **One group of MVC** is not a problem:
 
-![Model-View-Controller](https://github.com/marcojakob/dart-event-bus/raw/master/doc/mvc.png)
+![Model-View-Controller](https://raw.github.com/marcojakob/dart-event-bus/master/doc/mvc.png)
 
 But as soon as there are **multiple groups of MVCs**, those groups will have to talk
 to each other. This creates a tight coupling between the controllers:
 
-![Multi Model-View-Controllers](https://github.com/marcojakob/dart-event-bus/raw/master/doc/mvc-multi.png)
+![Multi Model-View-Controllers](https://raw.github.com/marcojakob/dart-event-bus/master/doc/mvc-multi.png)
 
 By communication through an **Event Bus**, the coupling is reduced:
 
-![Event Bus](https://github.com/marcojakob/dart-event-bus/raw/master/doc/event-bus.png)
+![Event Bus](https://raw.github.com/marcojakob/dart-event-bus/master/doc/event-bus.png)
 
 
 ## Usage ##
