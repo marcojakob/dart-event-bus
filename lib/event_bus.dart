@@ -18,7 +18,7 @@ part 'src/stream_controller.dart';
  * general interest.
  * 
  * **Note:** Make sure that listeners on the stream handle the same type <T> as the 
- * generic type argument of [eventType]. Currently, this can't be expressed in 
+ * generic type argument of [EventType]. Currently, this can't be expressed in 
  * Dart - see [Issue 254](https://code.google.com/p/dart/issues/detail?id=254)
  */
 abstract class EventBus {

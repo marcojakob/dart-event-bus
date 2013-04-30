@@ -96,7 +96,7 @@ Examples are available in the `example` directory.
 
 
 ## License ##
-Apache 2.0
+The MIT License (MIT)
 
 
 
