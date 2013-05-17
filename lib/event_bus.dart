@@ -1,7 +1,6 @@
 library event_bus;
 
 import 'dart:async';
-import 'package:meta/meta.dart';
 
 part 'src/simple_event_bus.dart';
 part 'src/stream_controller.dart';
