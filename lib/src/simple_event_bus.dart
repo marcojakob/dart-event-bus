@@ -10,13 +10,11 @@ class SimpleEventBus implements EventBus {
   Map<EventType, BroadcastStreamController> streamControllers = 
       new Map<EventType, BroadcastStreamController>();
   
-  @override
   Stream/*<T>*/ on(EventType/*<T>*/ eventType) {
     return streamControllers.putIfAbsent(eventType, () => _createStreamController(eventType))
         .stream;
   }
   
-  @override
   void fire(EventType/*<T>*/ eventType, /*<T>*/ data) {
     if (!eventType.isTypeT(data)) {
       throw new ArgumentError('Provided data is not of same type as generic type of EventType.');

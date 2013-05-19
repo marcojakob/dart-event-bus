@@ -24,7 +24,6 @@ class BroadcastStreamController<T> extends StreamController<T> {
   /**
    * Returns the cached broadcast [Stream].
    */
-  @override
   Stream<T> get stream {
     if(_broadcastCache == null) {
       _broadcastCache = super.stream.asBroadcastStream();
