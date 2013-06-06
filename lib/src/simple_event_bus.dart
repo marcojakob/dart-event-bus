@@ -1,18 +1,31 @@
 part of event_bus;
 
 /**
- * Basic implementation of [EventBus] that provides a [BroadcastStreamController]
+ * Basic implementation of [EventBus] that provides a broadcast [StreamController]
  * for each [EventType].
  */
 class SimpleEventBus implements EventBus {
+  bool sync;
+  
+  /**
+   * Constructor.
+   * 
+   * If [sync] is true, events are passed directly to the stream's listeners
+   * during an add, addError or close call. If [sync] is false, the event
+   * will be passed to the listeners at a later time, after the code creating
+   * the event has returned.
+   */
+  SimpleEventBus({this.sync: false});
   
   /// Map containing a stream controller for each [EventType]
-  Map<EventType, BroadcastStreamController> streamControllers = 
-      new Map<EventType, BroadcastStreamController>();
+  Map<EventType, StreamController> streamControllers = 
+      new Map<EventType, StreamController>();
   
   Stream/*<T>*/ on(EventType/*<T>*/ eventType) {
-    return streamControllers.putIfAbsent(eventType, () => _createStreamController(eventType))
-        .stream;
+    return streamControllers.putIfAbsent(eventType, () {
+      return new StreamController.broadcast(sync: sync);
+      }
+    ).stream;
   }
   
   void fire(EventType/*<T>*/ eventType, /*<T>*/ data) {
@@ -20,22 +33,9 @@ class SimpleEventBus implements EventBus {
       throw new ArgumentError('Provided data is not of same type as generic type of EventType.');
     }
     
-    var controller = streamControllers.putIfAbsent(eventType, () => _createStreamController(eventType));
-    
-    // Only add data events when the stream is running. Otherwise, if no one was
-    // listening, the events would be cached which could lead to a memory leak.
-    if (controller.hasListener && !controller.isClosed && !controller.isPaused) {
+    var controller = streamControllers[eventType];
+    if (controller != null) {
       controller.add(data);
     }
-  }
-  
-  /**
-   * Creates a BroadcastStreamController that removes itself from the map when
-   * it is cancelled.
-   */
-  BroadcastStreamController/*<T>*/ _createStreamController(EventType/*<T>*/ eventType) {
-    return new BroadcastStreamController(
-        // Remove from map when tha last stream is canceled.
-        onCancel: () => streamControllers.remove(eventType));
   }
 }

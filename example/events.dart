@@ -6,5 +6,15 @@ library events;
 import 'package:event_bus/event_bus.dart';
 export 'package:event_bus/event_bus.dart';
 
-final EventType<String> textUpdate1 = new EventType<String>();
-final EventType<String> textUpdate2 = new EventType<String>();
+EventBus _eventBus;
+
+/// The global [EventBus] object.
+EventBus get eventBus => _eventBus;
+
+/// Initializes the global [EventBus] object. Should only be called once!
+void init(EventBus eventBus) {
+  _eventBus = eventBus;
+}
+
+final EventType<String> textUpdateA = new EventType<String>();
+final EventType<String> textUpdateB = new EventType<String>();

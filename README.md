@@ -4,6 +4,12 @@ Event Bus
 A simple Event Bus using Dart [Streams](http://api.dartlang.org/docs/releases/latest/dart_async/Stream.html) 
 for decoupling applications.
 
+## Demo ##
+See [Dart Event Bus in action](http://edu.makery.ch/projects/dart-event-bus).
+
+All examples are also available in the `example` directory on GitHub.
+
+
 ## Event Bus Pattern ##
 An Event Bus follows the publish/subscribe pattern. It allows listeners to 
 subscribe for events and publishers to fire events. This enables objects to
@@ -91,36 +97,5 @@ Finally, we need to fire an event.
 eventBus.fire(userLoggedInEvent, new User('Mickey'));
 ```
 
-## Examples ##
-Examples are available in the `example` directory.
-
-
 ## License ##
 The MIT License (MIT)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

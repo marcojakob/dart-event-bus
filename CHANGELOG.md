@@ -14,3 +14,10 @@ Changelog
   
 ## Version 0.1.3 (2013-05-19) ##
 * Removed all occurrences of @override
+
+## Version 0.2.0 (2013-06-06) ##
+* Update to new Dart SDK v0.5.13.1_r23552.
+* Using Darts new Stream.broadcast() factory.
+* Provide option for synchronous broadcasting of events.
+* Update unit tests and example.
+* Create demo page.

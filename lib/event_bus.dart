@@ -3,7 +3,6 @@ library event_bus;
 import 'dart:async';
 
 part 'src/simple_event_bus.dart';
-part 'src/stream_controller.dart';
 
 /**
  * Dispatches events to listeners using the Dart [Stream] API. The [EventBus] 
@@ -16,17 +15,22 @@ part 'src/stream_controller.dart';
  * Not all events should be broadcasted through the [EventBus] but only those of
  * general interest.
  * 
- * **Note:** Make sure that listeners on the stream handle the same type <T> as the 
- * generic type argument of [EventType]. Currently, this can't be expressed in 
+ * **Note:** Make sure that listeners on the stream handle the same type <T> as 
+ * the generic type argument of [EventType]. Currently, this can't be expressed in 
  * Dart - see [Issue 254](https://code.google.com/p/dart/issues/detail?id=254)
  */
 abstract class EventBus {
   
   /**
    * Creates [SimpleEventBus], the default implementation of [EventBus].
+   * 
+   * If [sync] is true, events are passed directly to the stream's listeners
+   * during an add, addError or close call. If [sync] is false, the event
+   * will be passed to the listeners at a later time, after the code creating
+   * the event has returned.
    */
-  factory EventBus() {
-    return new SimpleEventBus();
+  factory EventBus({bool sync: true}) {
+    return new SimpleEventBus(sync: sync);
   }
   
   /**
@@ -34,6 +38,11 @@ abstract class EventBus {
    * 
    * The returned [Stream] is a broadcast stream so multiple subscriptions are
    * allowed.
+   * 
+   * Each listener is handled independently, and if they pause, only the pausing
+   * listener is affected. A paused listener will buffer events internally until
+   * unpaused or canceled. So it's usually better to just cancel and later 
+   * subscribe again (avoids memory leak).
    */
   Stream/*<T>*/ on(EventType/*<T>*/ eventType);
   

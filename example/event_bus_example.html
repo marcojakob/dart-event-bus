@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Event Bus</title>
+    <link rel="stylesheet" href="event_bus_example.css">
+  </head>
+  <body>
+    <h1>Event Bus Example</h1>
+    
+    <div id="example-container">
+      <div class="listener" id="listener-1">
+        Listener 1
+        <textarea></textarea>
+        <button class="listen-a">Listen for Event A</button>
+        <button class="listen-b">Listen for Event B</button>
+        <button class="pause">Pause</button>
+        <button class="resume">Resume</button>
+        <button class="cancel">Cancel</button>
+      </div>
+      <div class="listener" id="listener-2">
+        Listener 2
+        <textarea></textarea>
+        <button class="listen-a">Listen for Event A</button>
+        <button class="listen-b">Listen for Event B</button>
+        <button class="pause">Pause</button>
+        <button class="resume">Resume</button>
+        <button class="cancel">Cancel</button>
+      </div>
+      <div class="event">
+        <button id="fire-button-a">Fire Event A [1]</button>
+        <label id="fire-label-a"></label>
+      </div>
+      <div class="event">
+        <button id="fire-button-b">Fire Event B [1]</button>
+        <label id="fire-label-b"></label>
+      </div>
+    </div>
+    
+    <script type="application/dart" src="event_bus_example.dart"></script>
+    <script src="packages/browser/dart.js"></script>
+  </body>
+</html>

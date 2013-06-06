@@ -1,0 +1,46 @@
+
+body {
+  background-color: #F8F8F8;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.2em;
+  margin: 15px;
+}
+
+h1, p {
+  color: #333;
+}
+
+#example-container {
+  width: 620px; 
+  margin-bottom: 20px;
+}
+
+#example-container .listener {
+  width: 300px;
+  margin: 5px 5px 20px 5px;
+  padding: 10px;
+  float: left;
+  position: relative;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  -webkit-box-sizing:border-box;
+   -khtml-box-sizing:border-box;
+     -moz-box-sizing:border-box;
+          box-sizing:border-box;
+}
+
+#example-container .listener * {
+  margin-top: 5px; 
+}
+
+#example-container .listener textarea {
+   display: block;
+   width: 270px;
+   height: 100px;
+}
+
+#example-container .event {
+  display: block;  
+}

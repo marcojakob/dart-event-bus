@@ -18,10 +18,10 @@ group('[SimpleEventBus]', () {
   SimpleEventBus eventBus;  
   
   setUp(() {
-    eventBus = new SimpleEventBus();
+    eventBus = new SimpleEventBus(sync: false);
   });
   
-  test('on_MultipleEvents_HasMultipleStreamControllers', () {
+  test('on_ListenersForMultipleEvents_HasMultipleStreamControllers', () {
     // when
     eventBus.on(stringEvent1);
     eventBus.on(stringEvent2);
@@ -32,7 +32,7 @@ group('[SimpleEventBus]', () {
     expect(eventBus.streamControllers, hasLength(4));
   });
   
-  test('on_MultipleTimesForOneEvent_HasOneStreamController', () {
+  test('on_MultipleListenersForOneEvent_HasOneStreamController', () {
     // when
     eventBus.on(stringEvent1);
     eventBus.on(stringEvent1);
@@ -41,7 +41,7 @@ group('[SimpleEventBus]', () {
     expect(eventBus.streamControllers, hasLength(1));
   });
   
-  test('on_AddMultipleListenersForOneEvent_BroadcastStreamAndNoError', () {
+  test('on_AddMultipleListenersForOneEvent_IsBroadcastStreamAndNoError', () {
     // when
     eventBus.on(stringEvent1).listen((_) => null);
     eventBus.on(stringEvent1).listen((_) => null);
@@ -50,85 +50,75 @@ group('[SimpleEventBus]', () {
     expect(eventBus.streamControllers[stringEvent1].stream.isBroadcast, isTrue);
   });
   
-  test('on_CancelSubscriptionForEvent_StreamControllerIsDeleted', () {
+  test('on_CancelSubscriptionForEvent_StreamControllerStillAcceptsEvents', () {
     // given
     StreamSubscription subscription = eventBus.on(stringEvent1).listen((_) => null);
     
     // when
     subscription.cancel();
-    
-    // then
-    expect(eventBus.streamControllers[stringEvent1], isNull);
-  });
-  
-  test('on_CancelSubscriptionAndAddNewListener_HasValidStreamController', () {
-    // given
-    StreamSubscription subscription = eventBus.on(stringEvent1).listen((_) => null);
-    
-    // when
-    subscription.cancel();
-    eventBus.on(stringEvent1).listen((_) => null);
+    eventBus.fire(stringEvent1, 'aaaaa');
     
     // then
     expect(eventBus.streamControllers[stringEvent1], isNotNull);
+    expect(eventBus.streamControllers[stringEvent1].hasListener, isFalse);
+    expect(eventBus.streamControllers[stringEvent1].isClosed, isFalse);
   });
   
-  test('on_CancelOneSubscriptionForEventWithTwoListeners_StreamControllerIsNotDeleted', () {
+  test('on_CancelSubscriptionAndAddNewListener_ReceivesEvents', () {
+    // then
+    Function callback = expectAsync1((arg) => expect(arg, equals('aaaaa')));
+    
     // given
     StreamSubscription subscription = eventBus.on(stringEvent1).listen((_) => null);
-    eventBus.on(stringEvent1).listen((_) => null);
     
     // when
     subscription.cancel();
-    
-    // then
-    expect(eventBus.streamControllers[stringEvent1], isNotNull);
+    eventBus.on(stringEvent1).listen(callback);
+    eventBus.fire(stringEvent1, 'aaaaa');
   });
   
-  test('on_CancelTwoSubscriptionForEventWithTwoListeners_StreamControllerIsDeleted', () {
+  test('on_CancelOneSubscriptionForEventWithTwoListeners_OtherListenerReceivesEvents', () {
+    // then
+    Function callback = expectAsync1((arg) => expect(arg, equals('aaaaa')));
+    
     // given
     StreamSubscription subscription1 = eventBus.on(stringEvent1).listen((_) => null);
-    StreamSubscription subscription2 = eventBus.on(stringEvent1).listen((_) => null);
+    StreamSubscription subscription2 = eventBus.on(stringEvent1).listen(callback);
     
     // when
     subscription1.cancel();
-    subscription2.cancel();
-    
-    // then
-    expect(eventBus.streamControllers[stringEvent1], isNull);
+    eventBus.fire(stringEvent1, 'aaaaa');
   });
   
-  test('fire_OneListener_FiresEvent', () {
+  test('fire_OneListener_ReceivesEvent', () {
+    // then
+    Function callback = expectAsync1((arg) =>expect(arg, equals('Hello Event')));
+    
     // given
-    var callbackArgument;
-    Function callback = expectAsync1((arg) => callbackArgument = arg);
     eventBus.on(stringEvent1).listen(callback);
     
     // when
     eventBus.fire(stringEvent1, 'Hello Event');
-    
-    // then
-    expect(callbackArgument, equals('Hello Event'));
   });
   
-  test('fire_MultipleListeners_FiresEventOnAllListeners', () {
+  test('fire_MultipleListeners_AllListenersReceiveTheEvent', () {
+    // then
+    Function callback1 = expectAsync1((arg) => expect(arg, equals('Hello Event')));
+    Function callback2 = expectAsync1((arg) => expect(arg, equals('Hello Event')));
+    
     // given
-    var callbackArgument;
-    Function callback1 = expectAsync1((arg) => callbackArgument = arg);
-    Function callback2 = expectAsync1((_) => null);
     eventBus.on(stringEvent1).listen(callback1);
     eventBus.on(stringEvent1).listen(callback2);
     
     // when
     eventBus.fire(stringEvent1, 'Hello Event');
-    
-    // then
-    expect(callbackArgument, equals('Hello Event'));
   });
   
-  test('fire_TwoTimes_FiresTwoTimes', () {
-    // given
+  test('fire_TwoTimes_ListenerReceivesTwoEvents', () {
+    // then
     Function callback = expectAsync1((_) => null, count: 2);
+    
+    // given
     eventBus.on(stringEvent1).listen(callback);
     
     // when
@@ -136,9 +126,23 @@ group('[SimpleEventBus]', () {
     eventBus.fire(stringEvent1, 'Hello Event2');
   });
   
-  test('fire_AfterPause_EventFiresNot', () {
-    // given
+  test('fire_WhenSubscriptionPaused_ListenerDoesNotReceiveEvent', () {
+    // then
     Function callback = expectAsync1((_) => null, count: 0);
+    
+    // given
+    StreamSubscription subscription = eventBus.on(stringEvent1).listen(callback);
+    
+    // when
+    subscription.pause();
+    eventBus.fire(stringEvent1, 'Hello Event');
+  });
+  
+  test('fire_WhenSubscriptionPausedAndResumed_ListenerReceivesCachedEvent', () {
+    // then
+    Function callback = expectAsync1((arg) => expect(arg, equals('Hello Event')));
+    
+    // given
     StreamSubscription subscription = eventBus.on(stringEvent1).listen(callback);
     
     // when
@@ -147,17 +151,18 @@ group('[SimpleEventBus]', () {
     subscription.resume();
   });
   
-  test('fire_TwoListenersOnePause_EventFiresNot', () {
-    // given
+  test('fire_TwoListenersOnePaused_OtherListenerReceivesEvents', () {
+    // then
     Function callback1 = expectAsync1((_) => null, count: 0);
-    Function callback2 = expectAsync1((_) => null, count: 0);
+    Function callback2 = expectAsync1((arg) => expect(arg, equals('Hello Event')));
+    
+    // given
     StreamSubscription subscription1 = eventBus.on(stringEvent1).listen(callback1);
     StreamSubscription subscription2 = eventBus.on(stringEvent1).listen(callback2);
     
     // when
     subscription1.pause();
     eventBus.fire(stringEvent1, 'Hello Event');
-    subscription1.resume();
   });
   
   test('fire_WrongDataType_ThrowsError', () {
