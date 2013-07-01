@@ -21,3 +21,6 @@ Changelog
 * Provide option for synchronous broadcasting of events.
 * Update unit tests and example.
 * Create demo page.
+
+## Version 0.2.1 (2013-07-01) ##
+* Fix issue #6: Fire should accept null as data

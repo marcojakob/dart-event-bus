@@ -29,8 +29,8 @@ class SimpleEventBus implements EventBus {
   }
   
   void fire(EventType/*<T>*/ eventType, /*<T>*/ data) {
-    if (!eventType.isTypeT(data)) {
-      throw new ArgumentError('Provided data is not of same type as generic type of EventType.');
+    if (data != null && !eventType.isTypeT(data)) {
+      throw new ArgumentError('Provided data is not of same type as T of EventType.');
     }
     
     var controller = streamControllers[eventType];

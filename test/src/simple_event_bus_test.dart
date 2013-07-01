@@ -168,6 +168,14 @@ group('[SimpleEventBus]', () {
   test('fire_WrongDataType_ThrowsError', () {
     expect(() => eventBus.fire(stringEvent1, 22), throwsArgumentError);
   });
+  
+  test('fire_NullAsData_NoError', () {
+    try {
+      eventBus.fire(stringEvent1, null);
+    } catch (e) {
+      fail('Should not throw error: $e');
+    }
+  });
 });
 }
 

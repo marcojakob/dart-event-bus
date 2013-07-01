@@ -1,5 +1,5 @@
 name: event_bus
-version: 0.2.0
+version: 0.2.1
 author: Marco Jakob <majakob@gmx.ch>
 description: A simple Event Bus using Dart Streams for decoupling applications
 homepage: https://github.com/marcojakob/dart-event-bus
