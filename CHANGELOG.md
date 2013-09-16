@@ -1,6 +1,9 @@
 Changelog
 ================
 
+## Version 0.2.2 (2013-09-16) ##
+* Change default of SimpleEventBus to sync (same as factory in EventBus)
+
 ## Version 0.2.1 (2013-07-01) ##
 * Fix issue #6: Fire should accept null as data
 

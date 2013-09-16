@@ -15,7 +15,7 @@ class SimpleEventBus implements EventBus {
    * will be passed to the listeners at a later time, after the code creating
    * the event has returned.
    */
-  SimpleEventBus({this.sync: false});
+  SimpleEventBus({this.sync: true});
   
   /// Map containing a stream controller for each [EventType]
   Map<EventType, StreamController> streamControllers = 
