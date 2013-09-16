@@ -16,5 +16,5 @@ void init(EventBus eventBus) {
   _eventBus = eventBus;
 }
 
-final EventType<String> textUpdateA = new EventType<String>();
-final EventType<String> textUpdateB = new EventType<String>();
+final EventType<String> textUpdateA = new EventType<String>('textUpdateA');
+final EventType<String> textUpdateB = new EventType<String>('textUpdateB');

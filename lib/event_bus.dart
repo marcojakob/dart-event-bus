@@ -1,8 +1,10 @@
 library event_bus;
 
+import 'package:logging/logging.dart';
 import 'dart:async';
 
 part 'src/simple_event_bus.dart';
+part 'src/logging_event_bus.dart';
 
 /**
  * Dispatches events to listeners using the Dart [Stream] API. The [EventBus] 
@@ -57,6 +59,13 @@ abstract class EventBus {
  * [T] is the type of data that is provided when an event is fired.
  */
 class EventType<T> {
+  
+  String name;
+  
+  /**
+   * Constructor with an optional [name] for logging purposes. 
+   */
+  EventType([this.name]);
   
   /**
    * Returns true if the provided data is of type [T]. 

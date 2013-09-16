@@ -1,6 +1,9 @@
 Changelog
 ================
 
+## Version 0.2.3 (2013-09-16) ##
+* Fix issue #8: Add logging of events that flow through event bus
+
 ## Version 0.2.2 (2013-09-16) ##
 * Change default of SimpleEventBus to sync (same as factory in EventBus)
 

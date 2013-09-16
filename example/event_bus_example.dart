@@ -2,13 +2,19 @@ import 'dart:html';
 
 import 'dart:async';
 import 'events.dart' as events;
+import 'package:logging_handlers/logging_handlers_shared.dart';
+import 'package:logging/logging.dart';
 
 int counterA = 1;
 int counterB = 1;
 
 void main() {
+  // Init logging.
+  Logger.root.onRecord.listen(new PrintHandler().call);
+  Logger.root.level = Level.FINEST;
+  
   // Initialize the global event bus.
-  events.init(new events.EventBus());
+  events.init(new events.LoggingEventBus());
   
   // Initialize the listener boxes.
   Listener listener1 = new Listener(query('#listener-1'));
