@@ -1,6 +1,9 @@
 Changelog
 ================
 
+## Version 0.2.4 (2013-11-11) ##
+* Update to dart libraries 0.9.0.
+
 ## Version 0.2.3 (2013-09-16) ##
 * Fix issue #8: Add logging of events that flow through event bus
 

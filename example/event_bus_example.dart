@@ -2,7 +2,7 @@ import 'dart:html';
 
 import 'dart:async';
 import 'events.dart' as events;
-import 'package:logging_handlers/logging_handlers_shared.dart';
+import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 
 int counterA = 1;
@@ -10,21 +10,20 @@ int counterB = 1;
 
 void main() {
   // Init logging.
-  Logger.root.onRecord.listen(new PrintHandler().call);
-  Logger.root.level = Level.FINEST;
+  initLogging();
   
   // Initialize the global event bus.
   events.init(new events.LoggingEventBus());
   
   // Initialize the listener boxes.
-  Listener listener1 = new Listener(query('#listener-1'));
-  Listener listener2 = new Listener(query('#listener-2'));
+  Listener listener1 = new Listener(querySelector('#listener-1'));
+  Listener listener2 = new Listener(querySelector('#listener-2'));
   
   // Init Event fields.
-  LabelElement fireLabelA = query('#fire-label-a');
-  LabelElement fireLabelB = query('#fire-label-b');
-  ButtonElement fireButtonA = query("#fire-button-a");
-  ButtonElement fireButtonB = query("#fire-button-b");
+  LabelElement fireLabelA = querySelector('#fire-label-a');
+  LabelElement fireLabelB = querySelector('#fire-label-b');
+  ButtonElement fireButtonA = querySelector("#fire-button-a");
+  ButtonElement fireButtonB = querySelector("#fire-button-b");
   
   fireButtonA.onClick.listen((_) {
     // -------------------------------------------------
@@ -46,6 +45,18 @@ void main() {
   });
 }
 
+initLogging() {
+  DateFormat dateFormat = new DateFormat('yyyy.mm.dd HH:mm:ss.SSS');
+  
+  // Print output to console.
+  Logger.root.onRecord.listen((LogRecord r) {
+    print('${dateFormat.format(r.time)}\t${r.loggerName}\t[${r.level.name}]:\t${r.message}');
+  });
+  
+  // Root logger level.
+  Logger.root.level = Level.FINEST;
+}
+
 class Listener {
   Element element;
   
@@ -54,13 +65,13 @@ class Listener {
   StreamSubscription<String> subscription;
   
   Listener(this.element) {
-    output = element.query('textarea');
+    output = element.querySelector('textarea');
     // Init buttons.
-    element.query('.listen-a').onClick.listen((_) => listenForEventA());
-    element.query('.listen-b').onClick.listen((_) => listenForEventB());
-    element.query('.pause').onClick.listen((_) => pause());
-    element.query('.resume').onClick.listen((_) => resume());
-    element.query('.cancel').onClick.listen((_) => cancel());
+    element.querySelector('.listen-a').onClick.listen((_) => listenForEventA());
+    element.querySelector('.listen-b').onClick.listen((_) => listenForEventB());
+    element.querySelector('.pause').onClick.listen((_) => pause());
+    element.querySelector('.resume').onClick.listen((_) => resume());
+    element.querySelector('.cancel').onClick.listen((_) => cancel());
   }
   
   void listenForEventA() {

@@ -1,12 +1,12 @@
 name: event_bus
-version: 0.2.3
+version: 0.2.4
 author: Marco Jakob <majakob@gmx.ch>
 description: A simple Event Bus using Dart Streams for decoupling applications
 homepage: https://github.com/marcojakob/dart-event-bus
 documentation: http://edu.makery.ch/projects/dart-event-bus
 dependencies:
-  logging: any
+  intl: '>=0.9.0 <0.10.0'
+  logging: '>=0.9.0 <0.10.0'
 dev_dependencies:
-  browser: any
-  logging_handlers: any
-  unittest: any
+  browser: '>=0.9.0 <0.10.0'
+  unittest: '>=0.9.0 <0.10.0'
