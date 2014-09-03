@@ -66,7 +66,7 @@ group('[SimpleEventBus]', () {
   
   test('on_CancelSubscriptionAndAddNewListener_ReceivesEvents', () {
     // then
-    Function callback = expectAsync1((arg) => expect(arg, equals('aaaaa')));
+    Function callback = expectAsync((arg) => expect(arg, equals('aaaaa')));
     
     // given
     StreamSubscription subscription = eventBus.on(stringEvent1).listen((_) => null);
@@ -79,7 +79,7 @@ group('[SimpleEventBus]', () {
   
   test('on_CancelOneSubscriptionForEventWithTwoListeners_OtherListenerReceivesEvents', () {
     // then
-    Function callback = expectAsync1((arg) => expect(arg, equals('aaaaa')));
+    Function callback = expectAsync((arg) => expect(arg, equals('aaaaa')));
     
     // given
     StreamSubscription subscription1 = eventBus.on(stringEvent1).listen((_) => null);
@@ -92,7 +92,7 @@ group('[SimpleEventBus]', () {
   
   test('fire_OneListener_ReceivesEvent', () {
     // then
-    Function callback = expectAsync1((arg) =>expect(arg, equals('Hello Event')));
+    Function callback = expectAsync((arg) =>expect(arg, equals('Hello Event')));
     
     // given
     eventBus.on(stringEvent1).listen(callback);
@@ -103,8 +103,8 @@ group('[SimpleEventBus]', () {
   
   test('fire_MultipleListeners_AllListenersReceiveTheEvent', () {
     // then
-    Function callback1 = expectAsync1((arg) => expect(arg, equals('Hello Event')));
-    Function callback2 = expectAsync1((arg) => expect(arg, equals('Hello Event')));
+    Function callback1 = expectAsync((arg) => expect(arg, equals('Hello Event')));
+    Function callback2 = expectAsync((arg) => expect(arg, equals('Hello Event')));
     
     // given
     eventBus.on(stringEvent1).listen(callback1);
@@ -116,7 +116,7 @@ group('[SimpleEventBus]', () {
   
   test('fire_TwoTimes_ListenerReceivesTwoEvents', () {
     // then
-    Function callback = expectAsync1((_) => null, count: 2);
+    Function callback = expectAsync((_) => null, count: 2);
     
     // given
     eventBus.on(stringEvent1).listen(callback);
@@ -128,7 +128,7 @@ group('[SimpleEventBus]', () {
   
   test('fire_WhenSubscriptionPaused_ListenerDoesNotReceiveEvent', () {
     // then
-    Function callback = expectAsync1((_) => null, count: 0);
+    Function callback = expectAsync((_) => null, count: 0);
     
     // given
     StreamSubscription subscription = eventBus.on(stringEvent1).listen(callback);
@@ -140,7 +140,7 @@ group('[SimpleEventBus]', () {
   
   test('fire_WhenSubscriptionPausedAndResumed_ListenerReceivesCachedEvent', () {
     // then
-    Function callback = expectAsync1((arg) => expect(arg, equals('Hello Event')));
+    Function callback = expectAsync((arg) => expect(arg, equals('Hello Event')));
     
     // given
     StreamSubscription subscription = eventBus.on(stringEvent1).listen(callback);
@@ -153,8 +153,8 @@ group('[SimpleEventBus]', () {
   
   test('fire_TwoListenersOnePaused_OtherListenerReceivesEvents', () {
     // then
-    Function callback1 = expectAsync1((_) => null, count: 0);
-    Function callback2 = expectAsync1((arg) => expect(arg, equals('Hello Event')));
+    Function callback1 = expectAsync((_) => null, count: 0);
+    Function callback2 = expectAsync((arg) => expect(arg, equals('Hello Event')));
     
     // given
     StreamSubscription subscription1 = eventBus.on(stringEvent1).listen(callback1);

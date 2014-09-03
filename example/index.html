@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Event Bus</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="example.css">
+  </head>
+  <body>
+    <div id="example-container">
+      <div class="row">
+        <div class="listener col-xs-6" id="listener-1">
+          <h4>Listener 1</h4>
+          <p>
+            <textarea class="form-control" rows="4"></textarea>
+          </p>
+          <p>
+            <button class="listen-a btn btn-primary btn-sm">Listen for Event A</button>
+            <button class="listen-b btn btn-success btn-sm">Listen for Event B</button>
+          </p>
+          <p>
+            <button class="pause btn btn-default btn-sm">Pause</button>
+            <button class="resume btn btn-default btn-sm">Resume</button>
+            <button class="cancel btn btn-default btn-sm">Cancel</button>
+          </p>
+        </div>
+        <div class="listener col-xs-6" id="listener-2">
+          <h4>Listener 2</h4>
+          <p>
+            <textarea class="form-control" rows="4"></textarea>
+          </p>
+          <p>
+            <button class="listen-a btn btn-primary btn-sm">Listen for Event A</button>
+            <button class="listen-b btn btn-success btn-sm">Listen for Event B</button>
+          </p>
+          <p>
+            <button class="pause btn btn-default btn-sm">Pause</button>
+            <button class="resume btn btn-default btn-sm">Resume</button>
+            <button class="cancel btn btn-default btn-sm">Cancel</button>
+          </p>
+        </div>
+      </div>
+      
+      <h4>Fire Events</h4>
+      <div class="row">
+        <div class="event col-xs-12">
+          <p>
+            <button id="fire-button-a" class="btn btn-primary btn-sm">Fire Event A [1]</button>
+            <label id="fire-label-a"></label>
+          </p>
+        </div>
+        <div class="event col-xs-12">
+          <p>
+            <button id="fire-button-b" class="btn btn-success btn-sm">Fire Event B [1]</button>
+            <label id="fire-label-b"></label>
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <script type="application/dart" src="example.dart"></script>
+    <script src="packages/browser/dart.js"></script>
+  </body>
+</html>
