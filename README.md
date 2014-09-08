@@ -1,5 +1,4 @@
-Event Bus
-================
+# Event Bus
 
 A simple Event Bus using Dart [Streams](https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/dart:async.Stream) 
 for decoupling applications.
@@ -7,9 +6,9 @@ for decoupling applications.
 
 ## Demo
 
-See [Dart Event Bus in action](http://code.makery.ch/dart/event-bus/).
+See [Dart Event Bus in action](http://code.makery.ch/library/dart-event-bus/).
 
-All examples are also available in the `example` directory on GitHub.
+All examples are also available in the [example directory on GitHub](https://github.com/marcojakob/dart-event-bus/tree/master/example).
 
 
 ## Event Bus Pattern
@@ -42,15 +41,24 @@ By communication through an **Event Bus**, the coupling is reduced.
 ## Usage
 
 ### 1. Define Events
+
+Any Dart class can be used as an event.
+
 ```dart
 import 'package:event_bus/event_bus.dart';
 
-final EventType<User> userLoggedInEvent = new EventType<User>();
-final EventType<Order> newOrderEvent = new EventType<Order>();
-```
+class UserLoggedInEvent {
+  User user;
+  
+  UserLoggedInEvent(this.user);
+}
 
-Note: The generic type of the event (`User` and `Order` in this case) is the 
-type of data that will be provided when the event is fired.
+class NewOrderEvent {
+  Order order;
+  
+  NewOrderEvent(this.text);
+}
+```
 
 
 ### 2. Create Event Bus
@@ -64,40 +72,58 @@ set up to group a specific set of events.
 EventBus eventBus = new EventBus();
 ```
 
-This will instantiate the default implementation of `EventBus` which is
-`SimpleEventBus`. You may provide your own `EventBus` by either extending 
-`SimpleEventBus` or implementing `EventBus`.
+You can alternatively use the `HierarchicalEventBus` that filters events by 
+event class **including** its subclasses. 
+
+```dart
+EventBus eventBus = new EventBus.hierarchical();
+```
 
 
 ### 3. Register Listeners
 
-Register listeners that will be called whenever the event is fired.
+Register listeners for a **specific events**: 
+
 ```dart
-eventBus.on(userLoggedInEvent).listen((User user) {
-  print(user.name);	
+eventBus.on(UserLoggedInEvent).listen((UserLoggedInEvent event) {
+  print(event.user);
 });
 ```
 
-`EventBus` uses Dart [Streams](http://api.dartlang.org/docs/releases/latest/dart_async/Stream.html)
+Register listeners for **all events**:
+
+```dart
+eventBus.on().listen((event) {
+  // Print the runtime type. Such a set up could be used for logging.
+  print(event.runtimeType); 
+});
+```
+
+
+#### About Dart Streams
+
+`EventBus` uses Dart [Streams](https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/dart:async.Stream)
 as its underlying mechanism to keep track of listeners. You may use all 
-functionality available by the [Stream](http://api.dartlang.org/docs/releases/latest/dart_async/Stream.html)
-API. One example is the use of [StreamSubscriptions](http://api.dartlang.org/docs/releases/latest/dart_async/StreamSubscription.html)
+functionality available by the [Stream](https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/dart:async.Stream)
+API. One example is the use of [StreamSubscriptions](https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/dart:async.StreamSubscription)
 to later unsubscribe from the events.
 
 ```dart
-StreamSubscription<User> subscription = eventBus.on(userLoggedInEvent).listen((User user) {
-  print(user.name);	
+StreamSubscription loginSubscription = eventBus.on(UserLoggedInEvent).listen((UserLoggedInEvent event) {
+  print(event.user);	
 });
 
-subscription.cancel();
+loginSubscription.cancel();
 ```
+
 
 ### 4. Fire Events
 
 Finally, we need to fire an event.
 
 ```dart
-eventBus.fire(userLoggedInEvent, new User('Mickey'));
+User myUser = new User('Mickey');
+eventBus.fire(new UserLoggedInEvent(myUser));
 ```
 
 

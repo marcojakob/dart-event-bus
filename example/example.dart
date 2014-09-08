@@ -1,19 +1,21 @@
 import 'dart:html';
 
 import 'dart:async';
-import 'events.dart' as events;
-import 'package:intl/intl.dart';
+import 'events.dart';
 import 'package:logging/logging.dart';
 
 int counterA = 1;
 int counterB = 1;
 
+final _log = new Logger('event_bus_example');
+
 void main() {
   // Init logging.
   initLogging();
   
-  // Initialize the global event bus.
-  events.init(new events.LoggingEventBus());
+  // Log all events.
+  eventBus.on().listen((event) => _log.finest('event fired:  ${event.runtimeType}'));
+  
   
   // Initialize the listener boxes.
   Listener listener1 = new Listener(querySelector('#listener-1'));
@@ -29,28 +31,24 @@ void main() {
     // -------------------------------------------------
     // Fire Event A
     // -------------------------------------------------
-    events.eventBus.fire(events.textUpdateA, 'Received Event A [$counterA]');
+    eventBus.fire(new MyEventA('Received Event A [$counterA]'));
     fireLabelA.text = '--> fired [$counterA]';
     counterA++;
-    fireButtonA.text = 'Fire Event A [$counterA]';
   });
   fireButtonB.onClick.listen((_) {
     // -------------------------------------------------
     // Fire Event B
     // -------------------------------------------------
-    events.eventBus.fire(events.textUpdateB, 'Received Event B [$counterB]');
+    eventBus.fire(new MyEventB('Received Event B [$counterB]'));
     fireLabelB.text = '--> fired [$counterB]';
     counterB++;
-    fireButtonB.text = 'Fire Event B [$counterB]';
   });
 }
 
 initLogging() {
-  DateFormat dateFormat = new DateFormat('yyyy.mm.dd HH:mm:ss.SSS');
-  
   // Print output to console.
   Logger.root.onRecord.listen((LogRecord r) {
-    print('${dateFormat.format(r.time)}\t${r.loggerName}\t[${r.level.name}]:\t${r.message}');
+    print('${r.time}\t${r.loggerName}\t[${r.level.name}]:\t${r.message}');
   });
   
   // Root logger level.
@@ -81,8 +79,8 @@ class Listener {
       // -------------------------------------------------
       // Listen for Event A
       // -------------------------------------------------
-      subscription = events.eventBus.on(events.textUpdateA).listen((String text) {
-        appendOuput(text);
+      subscription = eventBus.on(MyEventA).listen((event) {
+        appendOuput(event.text);
       });
       appendOuput('---');
       appendOuput('Listening for Event A');
@@ -97,8 +95,8 @@ class Listener {
       // -------------------------------------------------
       // Listen for Event B
       // -------------------------------------------------
-      subscription = events.eventBus.on(events.textUpdateB).listen((String text) {
-        appendOuput(text);
+      subscription = eventBus.on(MyEventB).listen((MyEventB event) {
+        appendOuput(event.text);
       });
       appendOuput('---');
       appendOuput('Listening for Event B');

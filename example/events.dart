@@ -1,20 +1,24 @@
 /**
- * This is an example of how to set up events used by the event bus.
+ * This is an example of how to set up the [EventBus] and its events.
  */
 library events;
 
 import 'package:event_bus/event_bus.dart';
-export 'package:event_bus/event_bus.dart';
-
-EventBus _eventBus;
 
 /// The global [EventBus] object.
-EventBus get eventBus => _eventBus;
+EventBus eventBus = new EventBus();
 
-/// Initializes the global [EventBus] object. Should only be called once!
-void init(EventBus eventBus) {
-  _eventBus = eventBus;
+/// Event A.
+class MyEventA {
+  String text;
+  
+  MyEventA(this.text);
 }
 
-final EventType<String> textUpdateA = new EventType<String>('textUpdateA');
-final EventType<String> textUpdateB = new EventType<String>('textUpdateB');
+/// Event B.
+class MyEventB {
+  String text;
+  
+  MyEventB(this.text);
+}
+

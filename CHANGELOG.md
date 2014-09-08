@@ -1,5 +1,23 @@
 # Changelog
 
+## Version 0.3.0 (2014-09-08)
+
+* BREAKING CHANGE: Changed and simplified the EventBus API. We can now dispatch
+  any Dart object as an event. Before, we had to create an EventType for every
+  type of event we wanted to fire. Now we can use any class as an event. 
+  Listeners can (optionally) filter events by that class.
+* Added a way to create a **hierarchical event bus** that filters events by 
+  class and their subclasses. This currently only works with classes 
+  **extending** other classes and not with **implementing** an interface. 
+  We might have to wait for 
+  https://code.google.com/p/dart/issues/detail?id=20756 to enable interfaces.
+* BREAKING CHANGE: Default to async mode instead of sync. This now matches the 
+  of the Dart streams.
+* BREAKING CHANGE: Removed LoggingEventBus. Reason is that logging can easily
+  be implemented with a event listener that listens for all events and logs
+  them.
+
+
 ## Version 0.2.5 (2014-09-03)
 
 * Update example.

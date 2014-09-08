@@ -1,42 +1,59 @@
 library event_bus;
 
-import 'package:logging/logging.dart';
 import 'dart:async';
 
-part 'src/simple_event_bus.dart';
-part 'src/logging_event_bus.dart';
+@MirrorsUsed(symbols: '*') // Do not keep any names.
+import 'dart:mirrors';
 
 /**
  * Dispatches events to listeners using the Dart [Stream] API. The [EventBus] 
  * enables decoupled applications. It allows objects to interact without
  * requiring to explicitly define listeners and keeping track of them.
  * 
- * Usually there is just one [EventBus] per application, but more than one 
- * may be set up to group a specific set of events.
- * 
  * Not all events should be broadcasted through the [EventBus] but only those of
  * general interest.
  * 
- * **Note:** Make sure that listeners on the stream handle the same type <T> as 
- * the generic type argument of [EventType]. Currently, this can't be expressed in 
- * Dart - see [Issue 254](https://code.google.com/p/dart/issues/detail?id=254)
+ * Events are normal Dart objects. By specifying a class, listeners can 
+ * filter events. Such a filter will return 
+ * specifying a class.
  */
-abstract class EventBus {
+class EventBus {
+  
+  /// Controller for the event bus stream.
+  StreamController _streamController;
   
   /**
-   * Creates [SimpleEventBus], the default implementation of [EventBus].
+   * Creates an [EventBus].
    * 
    * If [sync] is true, events are passed directly to the stream's listeners
-   * during an add, addError or close call. If [sync] is false, the event
-   * will be passed to the listeners at a later time, after the code creating
-   * the event has returned.
+   * during an [fire] call. If false (the default), the event will be passed to 
+   * the listeners at a later time, after the code creating the event has 
+   * completed.
    */
-  factory EventBus({bool sync: true}) {
-    return new SimpleEventBus(sync: sync);
+  EventBus({bool sync: false}) {
+    _streamController = new StreamController.broadcast(sync: sync);
   }
   
   /**
-   * Returns the [Stream] to listen for events of type [eventType]. 
+   * Creats a [HierarchicalEventBus].
+   * 
+   * It filters events by an event class **including** its subclasses.
+   * 
+   * Note: This currently only works with classes **extending** other classes 
+   * and not with **implementing** an interface. We might have to wait for 
+   * https://code.google.com/p/dart/issues/detail?id=20756 to enable interfaces.
+   * 
+   * If [sync] is true, events are passed directly to the stream's listeners
+   * during an [fire] call. If false (the default), the event will be passed to 
+   * the listeners at a later time, after the code creating the event has 
+   * completed.
+   */
+  factory EventBus.hierarchical({bool sync: false}) {
+    return new HierarchicalEventBus(sync: sync);
+  }
+  
+  /**
+   * Listens for events of [eventType]. 
    * 
    * The returned [Stream] is a broadcast stream so multiple subscriptions are
    * allowed.
@@ -46,32 +63,54 @@ abstract class EventBus {
    * unpaused or canceled. So it's usually better to just cancel and later 
    * subscribe again (avoids memory leak).
    */
-  Stream/*<T>*/ on(EventType/*<T>*/ eventType);
+  Stream on([Type eventType]) {
+    return _streamController.stream.where((event) => eventType == null ||
+        event.runtimeType == eventType);
+  }
   
   /** 
-   * Fires a new event on the event bus with the specified [data].
+   * Fires a new event on the event bus with the specified [event].
    */
-  void fire(EventType/*<T>*/ eventType, /*<T>*/ data);
+  void fire(event) {
+    _streamController.add(event);
+  }
+  
+  /**
+   * Destroy this [EventBus]. This is generally only in a testing context.
+   */
+  void destroy() {
+    _streamController.close();
+  }
 }
 
 /**
- * Type class used to publish events with an [EventBus].
- * [T] is the type of data that is provided when an event is fired.
+ * A [HierarchicalEventBus] that filters events by event class **including**
+ * its subclasses. 
  */
-class EventType<T> {
-  
-  String name;
+class HierarchicalEventBus extends EventBus {
   
   /**
-   * Constructor with an optional [name] for logging purposes. 
-   */
-  EventType([this.name]);
-  
-  /**
-   * Returns true if the provided data is of type [T]. 
+   * Creates a [HierarchicalEventBus]. 
    * 
-   * This method is needed to provide type safety to the [EventBus] as long as
-   * Dart does not support generic types for methods.
+   * If [sync] is true, events are passed directly to the stream's listeners
+   * during an [fire] call. If false (the default), the event will be passed to 
+   * the listeners at a later time, after the code creating the event has completed.
    */
-  bool isTypeT(data) => data is T;
+  HierarchicalEventBus({bool sync: false}) : super(sync: sync);
+  
+  /**
+   * Listens for events of [eventType] and of all subclasses of [eventType]. 
+   * 
+   * The returned [Stream] is a broadcast stream so multiple subscriptions are
+   * allowed.
+   * 
+   * Each listener is handled independently, and if they pause, only the pausing
+   * listener is affected. A paused listener will buffer events internally until
+   * unpaused or canceled. So it's usually better to just cancel and later 
+   * subscribe again (avoids memory leak).
+   */
+  Stream on([Type eventType]) {
+    return _streamController.stream.where((event) => eventType == null ||
+        reflect(event).type.isSubclassOf(reflectClass(eventType)));
+  }
 }
