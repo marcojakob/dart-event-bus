@@ -35,12 +35,32 @@ to each other. This creates a tight coupling between the controllers.
 
 By communication through an **Event Bus**, the coupling is reduced.
 
-![Event Bus](https://raw.githubusercontent.com/marcojakob/dart-event-bus/master/doc /event-bus.png)
+![Event Bus](https://raw.githubusercontent.com/marcojakob/dart-event-bus/master/doc/event-bus.png)
 
 
 ## Usage
 
-### 1. Define Events
+
+### 1. Create an Event Bus
+
+Create an instance of `EventBus` and make it available to other classes.
+
+Usually there is just one Event Bus per application, but more than one may be 
+set up to group a specific set of events.
+
+```dart
+EventBus eventBus = new EventBus();
+```
+
+You can alternatively use the `HierarchicalEventBus` that filters events by 
+event class **including** its subclasses. 
+
+```dart
+EventBus eventBus = new EventBus.hierarchical();
+```
+
+
+### 2. Define Events
 
 Any Dart class can be used as an event.
 
@@ -58,25 +78,6 @@ class NewOrderEvent {
   
   NewOrderEvent(this.text);
 }
-```
-
-
-### 2. Create Event Bus
-
-Create an instance of `EventBus` and make it available to other classes.
-
-Usually there is just one Event Bus per application, but more than one may be 
-set up to group a specific set of events.
-
-```dart
-EventBus eventBus = new EventBus();
-```
-
-You can alternatively use the `HierarchicalEventBus` that filters events by 
-event class **including** its subclasses. 
-
-```dart
-EventBus eventBus = new EventBus.hierarchical();
 ```
 
 
