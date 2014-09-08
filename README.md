@@ -49,6 +49,8 @@ Usually there is just one Event Bus per application, but more than one may be
 set up to group a specific set of events.
 
 ```dart
+import 'package:event_bus/event_bus.dart';
+
 EventBus eventBus = new EventBus();
 ```
 
@@ -65,8 +67,6 @@ EventBus eventBus = new EventBus.hierarchical();
 Any Dart class can be used as an event.
 
 ```dart
-import 'package:event_bus/event_bus.dart';
-
 class UserLoggedInEvent {
   User user;
   
