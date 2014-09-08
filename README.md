@@ -61,6 +61,10 @@ event class **including** its subclasses.
 EventBus eventBus = new EventBus.hierarchical();
 ```
 
+**Note:** *The default constructor will create an asynchronous event bus. To 
+create a synchronous you must provide the optional `sync: true` attribute.*
+
+
 
 ### 2. Define Events
 

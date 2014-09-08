@@ -11,8 +11,9 @@
   **extending** other classes and not with **implementing** an interface. 
   We might have to wait for 
   https://code.google.com/p/dart/issues/detail?id=20756 to enable interfaces.
-* BREAKING CHANGE: Default to async mode instead of sync. This now matches the 
-  of the Dart streams.
+* BREAKING CHANGE: The EventBus constructor defaults to **async instead of 
+  sync**!!. This matches the constructor of the Dart Streams and an async event 
+  bus might also be the more common use case.
 * BREAKING CHANGE: Removed LoggingEventBus. Reason is that logging can easily
   be implemented with a event listener that listens for all events and logs
   them.
