@@ -80,7 +80,7 @@ class UserLoggedInEvent {
 class NewOrderEvent {
   Order order;
   
-  NewOrderEvent(this.text);
+  NewOrderEvent(this.order);
 }
 ```
 
