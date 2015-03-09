@@ -3,12 +3,13 @@
 A simple Event Bus using Dart [Streams](https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/dart:async.Stream) 
 for decoupling applications.
 
+[![Star this Repo](https://img.shields.io/github/stars/marcojakob/dart-event-bus.svg?style=flat-square)](https://github.com/marcojakob/dart-event-bus)
+[![Pub Package](https://img.shields.io/pub/v/event-bus.svg?style=flat-square)](https://pub.dartlang.org/packages/event-bus)
+[![Build Status](https://drone.io/github.com/marcojakob/dart-event-bus/status.png)](https://drone.io/github.com/marcojakob/dart-event-bus/latest)
 
-## Demo
-
-See [Dart Event Bus in action](http://code.makery.ch/library/dart-event-bus/).
-
-All examples are also available in the [example directory on GitHub](https://github.com/marcojakob/dart-event-bus/tree/master/example).
+[GitHub](https://github.com/marcojakob/dart-event-bus) | 
+[Pub](https://pub.dartlang.org/packages/event-bus) | 
+[Demos and Examples](http://code.makery.ch/library/dart-event-bus/)
 
 
 ## Event Bus Pattern
