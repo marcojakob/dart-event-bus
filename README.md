@@ -4,11 +4,11 @@ A simple Event Bus using Dart [Streams](https://api.dartlang.org/apidocs/channel
 for decoupling applications.
 
 [![Star this Repo](https://img.shields.io/github/stars/marcojakob/dart-event-bus.svg?style=flat-square)](https://github.com/marcojakob/dart-event-bus)
-[![Pub Package](https://img.shields.io/pub/v/event-bus.svg?style=flat-square)](https://pub.dartlang.org/packages/event-bus)
+[![Pub Package](https://img.shields.io/pub/v/event_bus.svg?style=flat-square)](https://pub.dartlang.org/packages/event_bus)
 [![Build Status](https://drone.io/github.com/marcojakob/dart-event-bus/status.png)](https://drone.io/github.com/marcojakob/dart-event-bus/latest)
 
 [GitHub](https://github.com/marcojakob/dart-event-bus) | 
-[Pub](https://pub.dartlang.org/packages/event-bus) | 
+[Pub](https://pub.dartlang.org/packages/event_bus) | 
 [Demos and Examples](http://code.makery.ch/library/dart-event-bus/)
 
 
