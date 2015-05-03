@@ -57,8 +57,13 @@ EventBus eventBus = new EventBus();
 You can alternatively use the `HierarchicalEventBus` that filters events by 
 event class **including** its subclasses. 
 
+*Note that the hierarchical event bus uses `dart:mirrors` which support in 
+dart2js is experimental.*
+
 ```dart
-EventBus eventBus = new EventBus.hierarchical();
+import 'package:event_bus/event_bus_hierarchical.dart';
+
+EventBus eventBus = new HierarchicalEventBus();
 ```
 
 
