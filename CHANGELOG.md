@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 0.4.0 (2015-05-03)
+
+* BREAKING CHANGE: Moved the `HierarchicalEventBus` to a separate library to 
+  be able to remove `dart:mirrors` from the normal `EventBus`.   
+  Users of the hierarchical event bus must import `event_bus_hierarchical.dart`
+  and replace the use of the factory constructor `EventBus.hierarchical()` with
+  the `HierarchicalEventBus` constructor.
+
+
 ## Version 0.3.0 (2014-09-08)
 
 * BREAKING CHANGE: Changed and simplified the EventBus API. We can now dispatch
