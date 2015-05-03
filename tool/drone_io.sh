@@ -14,6 +14,12 @@ pub build ${build_folder}
 
 
 # -----------------------------------
+# Test.
+# -----------------------------------
+dart test/all_tests.dart
+
+
+# -----------------------------------
 # Configure git in build subfolder
 # -----------------------------------
 cd build/${build_folder}
