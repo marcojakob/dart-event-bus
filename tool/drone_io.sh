@@ -16,7 +16,8 @@ pub build ${build_folder}
 # -----------------------------------
 # Test.
 # -----------------------------------
-dart test/all_tests.dart
+dart test/event_bus_test.dart
+dart test/event_bus_hierarchical_test.dart
 
 
 # -----------------------------------
