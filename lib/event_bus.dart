@@ -45,8 +45,11 @@ class EventBus {
    * subscribe again (avoids memory leak).
    */
   Stream on([Type eventType]) {
-    return streamController.stream.where((event) => eventType == null ||
-        event.runtimeType == eventType);
+    if (eventType == null) {
+      return streamController.stream;
+    } else {
+      return streamController.stream.where((event) => event.runtimeType == eventType);
+    }
   }
 
   /**

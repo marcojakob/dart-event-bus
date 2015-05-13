@@ -40,7 +40,11 @@ class HierarchicalEventBus extends EventBus {
    * subscribe again (avoids memory leak).
    */
   Stream on([Type eventType]) {
-    return streamController.stream.where((event) => eventType == null ||
-        reflect(event).type.isSubclassOf(reflectClass(eventType)));
+    if (eventType == null) {
+      return streamController.stream;
+    } else {
+      return streamController.stream.where((event) =>
+          reflect(event).type.isSubclassOf(reflectClass(eventType)));
+    }
   }
 }

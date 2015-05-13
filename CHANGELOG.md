@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 0.4.1 (2015-05-13)
+
+* Fix Issue #13: Improve on() stream when no type is specified
+
+
 ## Version 0.4.0 (2015-05-03)
 
 * BREAKING CHANGE: Moved the `HierarchicalEventBus` to a separate library to 
