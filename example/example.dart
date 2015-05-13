@@ -12,21 +12,21 @@ final _log = new Logger('event_bus_example');
 void main() {
   // Init logging.
   initLogging();
-  
+
   // Log all events.
   eventBus.on().listen((event) => _log.finest('event fired:  ${event.runtimeType}'));
-  
-  
+
+
   // Initialize the listener boxes.
   Listener listener1 = new Listener(querySelector('#listener-1'));
   Listener listener2 = new Listener(querySelector('#listener-2'));
-  
+
   // Init Event fields.
   LabelElement fireLabelA = querySelector('#fire-label-a');
   LabelElement fireLabelB = querySelector('#fire-label-b');
   ButtonElement fireButtonA = querySelector("#fire-button-a");
   ButtonElement fireButtonB = querySelector("#fire-button-b");
-  
+
   fireButtonA.onClick.listen((_) {
     // -------------------------------------------------
     // Fire Event A
@@ -50,18 +50,18 @@ initLogging() {
   Logger.root.onRecord.listen((LogRecord r) {
     print('${r.time}\t${r.loggerName}\t[${r.level.name}]:\t${r.message}');
   });
-  
+
   // Root logger level.
   Logger.root.level = Level.FINEST;
 }
 
 class Listener {
   Element element;
-  
+
   TextAreaElement output;
-  
+
   StreamSubscription<String> subscription;
-  
+
   Listener(this.element) {
     output = element.querySelector('textarea');
     // Init buttons.
@@ -71,7 +71,7 @@ class Listener {
     element.querySelector('.resume').onClick.listen((_) => resume());
     element.querySelector('.cancel').onClick.listen((_) => cancel());
   }
-  
+
   void listenForEventA() {
     if (subscription != null) {
       appendOuput('Already listening for an event.');
@@ -87,7 +87,7 @@ class Listener {
       appendOuput('---');
     }
   }
-  
+
   void listenForEventB() {
     if (subscription != null) {
       appendOuput('Already listening for an event.');
@@ -103,7 +103,7 @@ class Listener {
       appendOuput('---');
     }
   }
-  
+
   void pause() {
     if (subscription != null) {
       subscription.pause();
@@ -112,7 +112,7 @@ class Listener {
       appendOuput('No subscription, cannot pause!');
     }
   }
-  
+
   void resume() {
     if (subscription != null) {
       subscription.resume();
@@ -121,7 +121,7 @@ class Listener {
       appendOuput('No subscription, cannot resume!');
     }
   }
-  
+
   void cancel() {
     if (subscription != null) {
       subscription.cancel();
@@ -131,9 +131,9 @@ class Listener {
       appendOuput('No subscription, cannot cancel!');
     }
   }
-  
+
   void appendOuput(String text) {
-    output.appendText('$text\n');
+    output.value += '$text\n';
     output.scrollTop = output.scrollHeight;
   }
 }
