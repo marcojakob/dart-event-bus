@@ -1,0 +1,16 @@
+#example-container .listener {
+  width: 300px;
+  margin: 5px 5px 20px 5px;
+  padding: 10px;
+  float: left;
+  border: 1px solid #ccc;
+}
+
+#example-container .listener * {
+  margin-top: 5px;
+}
+
+#example-container .listener textarea {
+  width: 270px;
+  height: 100px;
+}
