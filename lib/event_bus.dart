@@ -46,9 +46,7 @@ class EventBus {
     if (T == dynamic) {
       return streamController.stream;
     } else {
-      return streamController.stream.where((event) {
-        return event is T;
-      }).cast<T>();
+      return streamController.stream.where((event) => event is T).cast<T>();
     }
   }
 
