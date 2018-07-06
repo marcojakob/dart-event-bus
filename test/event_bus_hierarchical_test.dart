@@ -1,9 +1,7 @@
-library hierarchical_event_bus_test;
-
 import 'dart:async';
-import 'package:unittest/unittest.dart';
 
-import 'package:event_bus/event_bus_hierarchical.dart';
+import 'package:event_bus/event_bus.dart';
+import 'package:test/test.dart';
 
 class EventA extends SuperEvent {
   String text;
@@ -17,54 +15,40 @@ class EventB extends SuperEvent {
   EventB(this.text);
 }
 
-class SuperEvent {
-}
+class SuperEvent {}
 
 main() {
+  group('[EventBus] (hierarchical)', () {
+    test('Listen on same class', () {
+      // given
+      EventBus eventBus = new EventBus();
+      Future f = eventBus.on<EventA>().toList();
 
-group('[HierarchicalEventBus]', () {
+      // when
+      eventBus.fire(new EventA('a1'));
+      eventBus.fire(new EventB('b1'));
+      eventBus.destroy();
 
-  test('Listen on same class', () {
-    // given
-    EventBus eventBus = new HierarchicalEventBus();
-    Future f = eventBus.on(EventA).toList();
+      // then
+      return f.then((events) {
+        expect(events.length, 1);
+      });
+    });
 
-    // when
-    eventBus.fire(new EventA('a1'));
-    eventBus.fire(new EventB('b1'));
-    eventBus.destroy();
+    test('Listen on superclass', () {
+      // given
+      EventBus eventBus = new EventBus();
+      Future f = eventBus.on<SuperEvent>().toList();
 
-    // then
-    return f.then((List events) {
-      expect(events.length, 1);
+      // when
+      eventBus.fire(new EventA('a1'));
+      eventBus.fire(new EventB('b1'));
+      eventBus.destroy();
+
+      // then
+      return f.then((events) {
+        expect(events.length, 2);
+      });
     });
   });
-
-  test('Listen on superclass', () {
-    // given
-    EventBus eventBus = new HierarchicalEventBus();
-    Future f = eventBus.on(SuperEvent).toList();
-
-    // when
-    eventBus.fire(new EventA('a1'));
-    eventBus.fire(new EventB('b1'));
-    eventBus.destroy();
-
-    // then
-    return f.then((List events) {
-      expect(events.length, 2);
-    });
-  });
-});
 }
-
-
-
-
-
-
-
-
-
-
-

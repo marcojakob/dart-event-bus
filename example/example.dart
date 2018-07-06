@@ -1,8 +1,9 @@
+import 'dart:async';
 import 'dart:html';
 
-import 'dart:async';
-import 'events.dart';
 import 'package:logging/logging.dart';
+
+import 'events.dart';
 
 int counterA = 1;
 int counterB = 1;
@@ -14,12 +15,13 @@ void main() {
   initLogging();
 
   // Log all events.
-  eventBus.on().listen((event) => _log.finest('event fired:  ${event.runtimeType}'));
-
+  eventBus
+      .on()
+      .listen((event) => _log.finest('event fired:  ${event.runtimeType}'));
 
   // Initialize the listener boxes.
-  Listener listener1 = new Listener(querySelector('#listener-1'));
-  Listener listener2 = new Listener(querySelector('#listener-2'));
+  new Listener(querySelector('#listener-1'));
+  new Listener(querySelector('#listener-2'));
 
   // Init Event fields.
   LabelElement fireLabelA = querySelector('#fire-label-a');
@@ -60,7 +62,7 @@ class Listener {
 
   TextAreaElement output;
 
-  StreamSubscription<String> subscription;
+  StreamSubscription subscription;
 
   Listener(this.element) {
     output = element.querySelector('textarea');
@@ -79,7 +81,7 @@ class Listener {
       // -------------------------------------------------
       // Listen for Event A
       // -------------------------------------------------
-      subscription = eventBus.on(MyEventA).listen((event) {
+      subscription = eventBus.on<MyEventA>().listen((event) {
         appendOuput(event.text);
       });
       appendOuput('---');
@@ -95,7 +97,7 @@ class Listener {
       // -------------------------------------------------
       // Listen for Event B
       // -------------------------------------------------
-      subscription = eventBus.on(MyEventB).listen((MyEventB event) {
+      subscription = eventBus.on<MyEventB>().listen((MyEventB event) {
         appendOuput(event.text);
       });
       appendOuput('---');

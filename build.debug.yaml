@@ -1,0 +1,11 @@
+targets:
+  $default:
+    builders:
+      build_web_compilers|entrypoint:
+        generate_for:
+          - example/example.dart
+        options:
+          compiler: dartdevc
+          dart2js_args:
+            - --enable-asserts
+            - --preview-dart-2
