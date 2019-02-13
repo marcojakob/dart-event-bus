@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 1.0.2 (2019-02-14)
+
+- Cleanup and update dependencies.
+
 ## Version 1.0.0 (2018-07-06)
 
 - Migrate to Dart 2.

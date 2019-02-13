@@ -23,7 +23,7 @@ class EventBus {
   /// the listeners at a later time, after the code creating the event has
   /// completed.
   ///
-  EventBus({bool sync: false}) {
+  EventBus({bool sync = false}) {
     _streamController = new StreamController.broadcast(sync: sync);
   }
 

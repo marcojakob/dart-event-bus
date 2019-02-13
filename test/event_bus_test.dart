@@ -15,6 +15,12 @@ class EventB {
   EventB(this.text);
 }
 
+class EventWithMap {
+  Map myMap;
+
+  EventWithMap(this.myMap);
+}
+
 main() {
   group('[EventBus]', () {
     test('Fire one event', () {
@@ -84,6 +90,21 @@ main() {
       // then
       return f.then((events) {
         expect(events.length, 3);
+      });
+    });
+
+    test('Fire event with a map type', () {
+      // given
+      EventBus eventBus = new EventBus();
+      Future f = eventBus.on<EventWithMap>().toList();
+
+      // when
+      eventBus.fire(new EventWithMap({'a': 'test'}));
+      eventBus.destroy();
+
+      // then
+      return f.then((events) {
+        expect(events.length, 1);
       });
     });
   });

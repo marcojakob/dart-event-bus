@@ -118,9 +118,9 @@ eventBus.fire(new UserLoggedInEvent(myUser));
 
 ## Running / Building / Testing
 
-- Run from the terminal: `pub run build_runner serve`
-- Build from the terminal: `pub run build_runner build --config release --output build`
-- Testing: `pub run build_runner test --fail-on-severe -- -p chrome`
+- Run from the terminal: `webdev serve`
+- Build from the terminal: `webdev build`
+- Testing: `pub run build_runner test -- -p chrome`
 
 ## License
 
