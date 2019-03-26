@@ -22,9 +22,13 @@ class EventBus {
   /// during a [fire] call. If false (the default), the event will be passed to
   /// the listeners at a later time, after the code creating the event has
   /// completed.
+  /// Also you can pass your own StreamController as EventBus to extend StreamController
+  /// such like Subject in RxDart.
   ///
-  EventBus({bool sync = false}) {
-    _streamController = new StreamController.broadcast(sync: sync);
+  EventBus({bool sync = false, StreamController controller}) {
+    _streamController = controller == null
+        ? StreamController.broadcast(sync: sync)
+        : controller;
   }
 
   /// Listens for events of Type [T] and its subtypes.
