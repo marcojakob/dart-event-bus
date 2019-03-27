@@ -47,7 +47,7 @@ set up to group a specific set of events.
 ```dart
 import 'package:event_bus/event_bus.dart';
 
-EventBus eventBus = new EventBus();
+EventBus eventBus = EventBus();
 ```
 
 **Note:** _The default constructor will create an asynchronous event bus. To
@@ -112,16 +112,16 @@ loginSubscription.cancel();
 Finally, we need to fire an event.
 
 ```dart
-User myUser = new User('Mickey');
-eventBus.fire(new UserLoggedInEvent(myUser));
+User myUser = User('Mickey');
+eventBus.fire(UserLoggedInEvent(myUser));
 ```
 
 ## Using Custom Stream Controllers
 
 Instead of using the default `StreamController` you can use the following constructor
-to provide your own. 
+to provide your own.
 
-An example would be to use an [RxDart](https://pub.dartlang.org/packages/rxdart) Subject 
+An example would be to use an [RxDart](https://pub.dartlang.org/packages/rxdart) Subject
 as the controller.
 
 ```dart
@@ -129,7 +129,6 @@ import 'package:rxdart/rxdart.dart';
 
 EventBus behaviorBus = EventBus.customController(BehaviorSubject());
 ```
-
 
 ## Running / Building / Testing
 

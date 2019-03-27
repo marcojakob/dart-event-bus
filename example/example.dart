@@ -8,7 +8,7 @@ import 'events.dart';
 int counterA = 1;
 int counterB = 1;
 
-final _log = new Logger('event_bus_example');
+final _log = Logger('event_bus_example');
 
 void main() {
   // Init logging.
@@ -20,8 +20,8 @@ void main() {
       .listen((event) => _log.finest('event fired:  ${event.runtimeType}'));
 
   // Initialize the listener boxes.
-  new Listener(querySelector('#listener-1'));
-  new Listener(querySelector('#listener-2'));
+  Listener(querySelector('#listener-1'));
+  Listener(querySelector('#listener-2'));
 
   // Init Event fields.
   LabelElement fireLabelA = querySelector('#fire-label-a');
@@ -33,7 +33,7 @@ void main() {
     // -------------------------------------------------
     // Fire Event A
     // -------------------------------------------------
-    eventBus.fire(new MyEventA('Received Event A [$counterA]'));
+    eventBus.fire(MyEventA('Received Event A [$counterA]'));
     fireLabelA.text = '--> fired [$counterA]';
     counterA++;
   });
@@ -41,7 +41,7 @@ void main() {
     // -------------------------------------------------
     // Fire Event B
     // -------------------------------------------------
-    eventBus.fire(new MyEventB('Received Event B [$counterB]'));
+    eventBus.fire(MyEventB('Received Event B [$counterB]'));
     fireLabelB.text = '--> fired [$counterB]';
     counterB++;
   });

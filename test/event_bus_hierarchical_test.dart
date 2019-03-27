@@ -21,12 +21,12 @@ main() {
   group('[EventBus] (hierarchical)', () {
     test('Listen on same class', () {
       // given
-      EventBus eventBus = new EventBus();
+      EventBus eventBus = EventBus();
       Future f = eventBus.on<EventA>().toList();
 
       // when
-      eventBus.fire(new EventA('a1'));
-      eventBus.fire(new EventB('b1'));
+      eventBus.fire(EventA('a1'));
+      eventBus.fire(EventB('b1'));
       eventBus.destroy();
 
       // then
@@ -37,12 +37,12 @@ main() {
 
     test('Listen on superclass', () {
       // given
-      EventBus eventBus = new EventBus();
+      EventBus eventBus = EventBus();
       Future f = eventBus.on<SuperEvent>().toList();
 
       // when
-      eventBus.fire(new EventA('a1'));
-      eventBus.fire(new EventB('b1'));
+      eventBus.fire(EventA('a1'));
+      eventBus.fire(EventB('b1'));
       eventBus.destroy();
 
       // then

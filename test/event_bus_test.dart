@@ -25,11 +25,11 @@ main() {
   group('[EventBus]', () {
     test('Fire one event', () {
       // given
-      EventBus eventBus = new EventBus();
+      EventBus eventBus = EventBus();
       Future f = eventBus.on<EventA>().toList();
 
       // when
-      eventBus.fire(new EventA('a1'));
+      eventBus.fire(EventA('a1'));
       eventBus.destroy();
 
       // then
@@ -40,12 +40,12 @@ main() {
 
     test('Fire two events of same type', () {
       // given
-      EventBus eventBus = new EventBus();
+      EventBus eventBus = EventBus();
       Future f = eventBus.on<EventA>().toList();
 
       // when
-      eventBus.fire(new EventA('a1'));
-      eventBus.fire(new EventA('a2'));
+      eventBus.fire(EventA('a1'));
+      eventBus.fire(EventA('a2'));
       eventBus.destroy();
 
       // then
@@ -56,13 +56,13 @@ main() {
 
     test('Fire events of different type', () {
       // given
-      EventBus eventBus = new EventBus();
+      EventBus eventBus = EventBus();
       Future f1 = eventBus.on<EventA>().toList();
       Future f2 = eventBus.on<EventB>().toList();
 
       // when
-      eventBus.fire(new EventA('a1'));
-      eventBus.fire(new EventB('b1'));
+      eventBus.fire(EventA('a1'));
+      eventBus.fire(EventB('b1'));
       eventBus.destroy();
 
       // then
@@ -78,13 +78,13 @@ main() {
 
     test('Fire events of different type, receive all types', () {
       // given
-      EventBus eventBus = new EventBus();
+      EventBus eventBus = EventBus();
       Future f = eventBus.on().toList();
 
       // when
-      eventBus.fire(new EventA('a1'));
-      eventBus.fire(new EventB('b1'));
-      eventBus.fire(new EventB('b2'));
+      eventBus.fire(EventA('a1'));
+      eventBus.fire(EventB('b1'));
+      eventBus.fire(EventB('b2'));
       eventBus.destroy();
 
       // then
@@ -95,11 +95,11 @@ main() {
 
     test('Fire event with a map type', () {
       // given
-      EventBus eventBus = new EventBus();
+      EventBus eventBus = EventBus();
       Future f = eventBus.on<EventWithMap>().toList();
 
       // when
-      eventBus.fire(new EventWithMap({'a': 'test'}));
+      eventBus.fire(EventWithMap({'a': 'test'}));
       eventBus.destroy();
 
       // then
