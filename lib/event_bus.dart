@@ -24,10 +24,13 @@ class EventBus {
   /// completed.
   EventBus({bool sync = false})
       : _streamController = StreamController.broadcast(sync: sync);
-  
-  /// Also you can pass your own StreamController as EventBus to extend StreamController
-  /// such like Subject in RxDart.
-  EventBus.custom(StreamController controller) : _streamController = controller;
+
+  /// Instead of using the default [StreamController] you can use this constructor
+  /// to pass your own controller.
+  ///
+  /// An example would be to use an RxDart Subject as the controller.
+  EventBus.customController(StreamController controller)
+      : _streamController = controller;
 
   /// Listens for events of Type [T] and its subtypes.
   ///

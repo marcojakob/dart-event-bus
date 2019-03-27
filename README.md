@@ -116,6 +116,21 @@ User myUser = new User('Mickey');
 eventBus.fire(new UserLoggedInEvent(myUser));
 ```
 
+## Using Custom Stream Controllers
+
+Instead of using the default `StreamController` you can use the following constructor
+to provide your own. 
+
+An example would be to use an [RxDart](https://pub.dartlang.org/packages/rxdart) Subject 
+as the controller.
+
+```dart
+import 'package:rxdart/rxdart.dart';
+
+EventBus behaviorBus = EventBus.customController(BehaviorSubject());
+```
+
+
 ## Running / Building / Testing
 
 - Run from the terminal: `webdev serve`
