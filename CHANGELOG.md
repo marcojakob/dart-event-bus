@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 1.1.0 (2019-03-27)
+
+- Add constructor for custom controllers like RxDart Subject (see #21).
+- Remove `new` keyword.
+
 ## Version 1.0.3 (2019-02-14)
 
 - Cleanup and update dependencies.
