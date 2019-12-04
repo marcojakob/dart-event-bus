@@ -4,11 +4,11 @@ A simple Event Bus using Dart [Streams](https://api.dartlang.org/apidocs/channel
 for decoupling applications.
 
 [![Star this Repo](https://img.shields.io/github/stars/marcojakob/dart-event-bus.svg?style=flat-square)](https://github.com/marcojakob/dart-event-bus)
-[![Pub Package](https://img.shields.io/pub/v/event_bus.svg?style=flat-square)](https://pub.dartlang.org/packages/event_bus)
+[![Pub Package](https://img.shields.io/pub/v/event_bus.svg?style=flat-square)](https://pub.dev/packages/event_bus)
 
 [GitHub](https://github.com/marcojakob/dart-event-bus) |
-[Pub](https://pub.dartlang.org/packages/event_bus) |
-[Demos and Examples](http://code.makery.ch/library/dart-event-bus/)
+[Pub](https://pub.dev/packages/event_bus) |
+[Demos and Examples](https://code.makery.ch/library/dart-event-bus/)
 
 ## Event Bus Pattern
 
@@ -19,8 +19,8 @@ them.
 
 ### Event Bus and MVC
 
-The Event Bus pattern is especially helpful for decoupling [MVC](http://wikipedia.org/wiki/Model_View_Controller)
-(or [MVP](http://wikipedia.org/wiki/Model_View_Presenter)) applications.
+The Event Bus pattern is especially helpful for decoupling [MVC](https://wikipedia.org/wiki/Model_View_Controller)
+(or [MVP](https://wikipedia.org/wiki/Model_View_Presenter)) applications.
 
 **One group of MVC** is not a problem.
 
@@ -121,7 +121,7 @@ eventBus.fire(UserLoggedInEvent(myUser));
 Instead of using the default `StreamController` you can use the following constructor
 to provide your own.
 
-An example would be to use an [RxDart](https://pub.dartlang.org/packages/rxdart) Subject
+An example would be to use an [RxDart](https://pub.dev/packages/rxdart) Subject
 as the controller.
 
 ```dart
