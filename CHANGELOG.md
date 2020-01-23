@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 1.1.1 (2020-01-21)
+
+- Fix homepage URL.
+
+
 ## Version 1.1.0 (2019-03-27)
 
 - Add constructor for custom controllers like RxDart Subject (see #21).
