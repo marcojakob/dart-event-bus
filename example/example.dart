@@ -24,8 +24,8 @@ void main() {
   Listener(querySelector('#listener-2')!);
 
   // Init Event fields.
-  LabelElement? fireLabelA = querySelector('#fire-label-a') as LabelElement?;
-  LabelElement? fireLabelB = querySelector('#fire-label-b') as LabelElement?;
+  LabelElement fireLabelA = querySelector('#fire-label-a') as LabelElement;
+  LabelElement fireLabelB = querySelector('#fire-label-b') as LabelElement;
   ButtonElement fireButtonA = querySelector("#fire-button-a") as ButtonElement;
   ButtonElement fireButtonB = querySelector("#fire-button-b") as ButtonElement;
 
@@ -34,7 +34,7 @@ void main() {
     // Fire Event A
     // -------------------------------------------------
     eventBus.fire(MyEventA('Received Event A [$counterA]'));
-    fireLabelA!.text = '--> fired [$counterA]';
+    fireLabelA.text = '--> fired [$counterA]';
     counterA++;
   });
   fireButtonB.onClick.listen((_) {
@@ -42,7 +42,7 @@ void main() {
     // Fire Event B
     // -------------------------------------------------
     eventBus.fire(MyEventB('Received Event B [$counterB]'));
-    fireLabelB!.text = '--> fired [$counterB]';
+    fireLabelB.text = '--> fired [$counterB]';
     counterB++;
   });
 }
