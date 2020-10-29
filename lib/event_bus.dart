@@ -39,6 +39,8 @@ class EventBus {
   /// If the method is called without a type parameter, the [Stream] contains every
   /// event of this [EventBus].
   ///
+  /// The [test] function can custom filter the stream.
+  ///
   /// The returned [Stream] is a broadcast stream so multiple subscriptions are
   /// allowed.
   ///
@@ -47,11 +49,17 @@ class EventBus {
   /// unpaused or canceled. So it's usually better to just cancel and later
   /// subscribe again (avoids memory leak).
   ///
-  Stream<T> on<T>() {
+  Stream<T> on<T>([bool test(T event)]) {
     if (T == dynamic) {
       return streamController.stream;
     } else {
-      return streamController.stream.where((event) => event is T).cast<T>();
+      return streamController.stream.where((event) {
+        if (test != null) {
+          return (event is T) && test(event);
+        } else {
+          return event is T;
+        }
+      }).cast<T>();
     }
   }
 
