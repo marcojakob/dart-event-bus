@@ -67,8 +67,14 @@ class Listener {
   Listener(this.element) {
     output = element.querySelector('textarea') as TextAreaElement;
     // Init buttons.
-    element.querySelector('.listen-a')!.onClick.listen((_) => listenForEventA());
-    element.querySelector('.listen-b')!.onClick.listen((_) => listenForEventB());
+    element
+        .querySelector('.listen-a')!
+        .onClick
+        .listen((_) => listenForEventA());
+    element
+        .querySelector('.listen-b')!
+        .onClick
+        .listen((_) => listenForEventB());
     element.querySelector('.pause')!.onClick.listen((_) => pause());
     element.querySelector('.resume')!.onClick.listen((_) => resume());
     element.querySelector('.cancel')!.onClick.listen((_) => cancel());

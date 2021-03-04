@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 2.0.0 (2021-03-04)
+
+- Migrate to null safety.
+
 ## Version 1.1.1 (2020-01-21)
 
 - Fix homepage URL.
