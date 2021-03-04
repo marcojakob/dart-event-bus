@@ -20,14 +20,14 @@ void main() {
       .listen((event) => _log.finest('event fired:  ${event.runtimeType}'));
 
   // Initialize the listener boxes.
-  Listener(querySelector('#listener-1'));
-  Listener(querySelector('#listener-2'));
+  Listener(querySelector('#listener-1')!);
+  Listener(querySelector('#listener-2')!);
 
   // Init Event fields.
-  LabelElement fireLabelA = querySelector('#fire-label-a');
-  LabelElement fireLabelB = querySelector('#fire-label-b');
-  ButtonElement fireButtonA = querySelector("#fire-button-a");
-  ButtonElement fireButtonB = querySelector("#fire-button-b");
+  LabelElement fireLabelA = querySelector('#fire-label-a') as LabelElement;
+  LabelElement fireLabelB = querySelector('#fire-label-b') as LabelElement;
+  ButtonElement fireButtonA = querySelector("#fire-button-a") as ButtonElement;
+  ButtonElement fireButtonB = querySelector("#fire-button-b") as ButtonElement;
 
   fireButtonA.onClick.listen((_) {
     // -------------------------------------------------
@@ -60,18 +60,24 @@ initLogging() {
 class Listener {
   Element element;
 
-  TextAreaElement output;
+  late final TextAreaElement output;
 
-  StreamSubscription subscription;
+  StreamSubscription? subscription;
 
   Listener(this.element) {
-    output = element.querySelector('textarea');
+    output = element.querySelector('textarea') as TextAreaElement;
     // Init buttons.
-    element.querySelector('.listen-a').onClick.listen((_) => listenForEventA());
-    element.querySelector('.listen-b').onClick.listen((_) => listenForEventB());
-    element.querySelector('.pause').onClick.listen((_) => pause());
-    element.querySelector('.resume').onClick.listen((_) => resume());
-    element.querySelector('.cancel').onClick.listen((_) => cancel());
+    element
+        .querySelector('.listen-a')!
+        .onClick
+        .listen((_) => listenForEventA());
+    element
+        .querySelector('.listen-b')!
+        .onClick
+        .listen((_) => listenForEventB());
+    element.querySelector('.pause')!.onClick.listen((_) => pause());
+    element.querySelector('.resume')!.onClick.listen((_) => resume());
+    element.querySelector('.cancel')!.onClick.listen((_) => cancel());
   }
 
   void listenForEventA() {
@@ -108,7 +114,7 @@ class Listener {
 
   void pause() {
     if (subscription != null) {
-      subscription.pause();
+      subscription!.pause();
       appendOuput('Subscription paused.');
     } else {
       appendOuput('No subscription, cannot pause!');
@@ -117,7 +123,7 @@ class Listener {
 
   void resume() {
     if (subscription != null) {
-      subscription.resume();
+      subscription!.resume();
       appendOuput('Subscription resumed.');
     } else {
       appendOuput('No subscription, cannot resume!');
@@ -126,7 +132,7 @@ class Listener {
 
   void cancel() {
     if (subscription != null) {
-      subscription.cancel();
+      subscription!.cancel();
       subscription = null;
       appendOuput('Subscription canceled.');
     } else {
@@ -135,7 +141,7 @@ class Listener {
   }
 
   void appendOuput(String text) {
-    output.value += '$text\n';
+    output.value = output.value! + '$text\n';
     output.scrollTop = output.scrollHeight;
   }
 }
