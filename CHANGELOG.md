@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 2.0.2 (2024-09-23)
+## Version 2.0.1 (2024-09-23)
 
 - Update environment dependency to support up to Dart v3.
 

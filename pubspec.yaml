@@ -1,5 +1,5 @@
 name: event_bus
-version: 2.0.2
+version: 2.0.1
 description: A simple Event Bus using Dart Streams for decoupling applications
 repository: https://github.com/marcojakob/dart-event-bus
 homepage: https://code.makery.ch/library/dart-event-bus/
